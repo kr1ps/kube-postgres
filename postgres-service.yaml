@@ -3,11 +3,14 @@ kind: Service
 metadata:
   name: postgres-service
   labels:
+    name: postgres-service
     app: postgres
 spec:
   ports:
   - port: 5432
+    targetPort: 5432
     name: postgres
   type: LoadBalancer 
   selector:
+    name: postgres-pod
     app: postgres

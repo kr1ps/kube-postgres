@@ -12,22 +12,24 @@ spec:
       app: postgres
   template:
     metadata:
+      name: postgres-pod
       labels:
+        name: postgres-pod
         app: postgres
     spec:
       containers:
-      - name: postgres
-        image: postgres:12
-        envFrom:
-        - configMapRef:
-            name: postgres-configuration
-        ports:
-        - containerPort: 5432
-          name: postgresdb
-        volumeMounts:
-        - name: pv-data
-          mountPath: /var/lib/postgresql/data
+        - name: postgres
+          image: postgres
+          ports:
+            - containerPort: 5432
+          envFrom:
+            - configMapRef:
+                name: postgres-configuration
+          volumeMounts:
+            - name: postgres-data
+              mountPath: /var/lib/postgresql/data
+              subPath: postgres
       volumes:
-      - name: pv-data
+      - name: postgres-data
         persistentVolumeClaim:
           claimName: postgres-pv-claim
